@@ -1,90 +1,106 @@
 import java.util.Scanner;
 
-public class banka {
+public class userLogin {
+//username=yunus
+//password=1234
+
+    static int rightOfEntry = 3, balance1 = 1000;
+    static boolean accountSituation = true, result;
+    static Scanner input = new Scanner(System.in);
+    static String userAction =
+            "Balance inquiry------------------->1\n" +
+                    "IBAN information------------------>2\n" +
+                    "Withdraw money-------------------->3\n" +
+                    "Transfer money to another account->4\n" +
+                    "Quit application------------------>0", iban1 = "TR58 0010 2306 0062 0017 7858";
+
+
     public static void main(String[] args) {
+//Login program
+        if (accountSituation) {
 
-
-        String kullaniciislemleri = "Bakiye sorgulamak için----------->1\n" +
-                "IBAN görüntülemek için----------->2\n" +
-                "Para çekmek için----------------->3\n" +
-                "Başka hesaba para transferi için->4\n" +
-                "Uygulamadan çıkmak için---------->0";
-
-        String user1 = "yunus";
-        String user2 = "hamza";
-        String sifre1 = "1234";
-        String sifre2 = "4321";
-        String iban1 = "TR58 0010 2306 0062 0017 7858";
-        String iban2 = "TR31 6485 6548 6510 0003 0059";
-
-
-        int bakiye1 = 1000;
-        int bakiye2 = 2200;
-
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Kullanıcı adını giriniz: ");
-        String user = scanner.nextLine();
-
-        System.out.print("Şifrenizi giriniz: ");
-        String sifre = scanner.nextLine();
-
-        if (user.equals(user1) && sifre.equals(sifre1)) {
-            System.out.println("Yunus hesabına giriş yapılıyor...");
-
-            // Delay için mili saniye türünden yazılır
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+            while (accountSituation) {
+                if (rightOfEntry < 1) {
+                    accountSituation = false;
+                    break;
+                }
+                System.out.print("Username:");
+                String userName = input.nextLine();
+                System.out.print("Password:");
+                String password = input.nextLine();
+                boolean result = control(userName, password);
+                if (result) {
+                    break;
+                }
             }
 
-            System.out.print(kullaniciislemleri);
-            //System.out.println();
-            int islem = scanner.nextInt();
-            switch (islem) {
-                case 1:
-                    System.out.println("bakiye miktarı = " + bakiye1);
-                    break;
+        }
+        if (accountSituation == false) {
+            System.out.println("Your account has been blocked.\nPlease contact with us.");
+        }
 
-                case 2:
-                    System.out.println("Hesap ibanınız = " + iban1);
-                    break;
-
-                case 3:
-                    System.out.print("Çekmek istediğiniz para miktarını giriniz:");
-                    int paracekim = scanner.nextInt();
-                    if (paracekim <= bakiye1) {
-                        bakiye1 -= paracekim;
-                        System.out.println("Paranızı alınız.\n" + "Kalan bakiyeniz = " + bakiye1);
-                    } else {
-                        System.out.println("--Yetersiz bakiye--");
-                    }
-                    break;
-                case 4:
-                    System.out.println("Göndermek istediğiniz para miktarını girin");
-                    int gonderilenPara = scanner.nextInt();
-                    if (gonderilenPara <= bakiye1) {
-                        System.out.print("Gönderilecek kişi: ");
-                        //iki tane scanner kullan
-                        scanner.nextLine();
-                        String gonderilenkisi = scanner.nextLine();
-                        System.out.println(gonderilenkisi + " hesabına para gönderildi.");
-                        break;
-
-                    } else {
-                        System.out.println("Yetersiz bakiye");
-                    }
-                default:
-                    break;
-            }
+    }
 
 
-            //hamzanın hesap------------------------------------------------
-        } else if (user.equals(user2) && sifre.equals(sifre2)) {
-            System.out.print("Hamza hesabına giriş yapıldı.");
+    public static boolean control(String userName, String password) {
+
+        if (userName.equals("yunus") && password.equals("1234")) {
+            System.out.println("Entering your account.");
+            //BURAYAAAAAAAAAAAAa
+            bank();
+            return true;
         } else {
-            System.out.println("Kullanıcı adı veya şifreniz yanlış.");
+            if (rightOfEntry > 1) {
+                System.out.println("Please try again");
+            }
+            rightOfEntry--;
+            return false;
+        }
+    }
+
+    public static void bank() {
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        System.out.print(userAction);
+        int process = input.nextInt();
+        switch (process) {
+            case 1:
+                System.out.println("Account balance = " + balance1);
+                break;
+
+            case 2:
+                System.out.println("Account IBAN= " + iban1);
+                break;
+
+            case 3:
+                System.out.print("Enter the amount of money you want to withdraw:");
+                int withdrawMoney = input.nextInt();
+                if (withdrawMoney <= balance1) {
+                    balance1 -= withdrawMoney;
+                    System.out.println("Take your money.\n" + "Available balance = " + balance1);
+                } else {
+                    System.out.println("--Insufficient funds--");
+                }
+                break;
+            case 4:
+                System.out.println("Enter the amount of money you want to send:");
+                int moneySent = input.nextInt();
+                if (moneySent <= balance1) {
+                    System.out.print("Person to who money is send: ");
+                    //iki tane scanner kullan
+                    input.nextLine();
+                    String toPerson = input.nextLine();
+                    System.out.println("Money sent to account of " + toPerson);
+                    break;
+
+                } else {
+                    System.out.println("Insufficient funds...");
+                }
+            default:
+                break;
         }
 
 
